@@ -1,19 +1,3 @@
-/* 
-Without calling the Function.Prototype.call, implement myCall function on Function prototype.
-
-myCall(thisContext, ...args) - should call original function with thiscontext bound to function's this keyword, passing all the remaing arguments as individual
-arguments to the function.
-
-myApply(thisContext, ...args) - should call original function with thiscontext bound to function's this keyword, passing all the remaing arguments as an array of individual
-arguments to the function.
-
-myApply(thisContext, ...args) - should return a new function that calls the original function with thisContext bound to the function's this keyword, passing all of the remaining args
-as individual arguments to the function. The new function should accept optional arguments, which should also be passed to the original function, after the
-args originally passed to myBind.
-
-
-*/
-
 const obj = {num: 0};
 
 function logNums(x,y) {

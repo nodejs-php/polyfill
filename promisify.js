@@ -1,6 +1,6 @@
 /**
  * Упаковка в промис
- * @param callback Функция которую требуется упаковать в промис
+ * @param callback Исходная функция которую требуется упаковать в промис
  * @returns {function(...[*]): Promise<unknown>}
  */
 function promisify(callback) {
