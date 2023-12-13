@@ -8,8 +8,8 @@ let shouldThrottle = false;
  *
  * Дросселирование функции, запуск некоторого другого обработчика с некоторым интервалом времени
  *
- * @param func
- * @param wait
+ * @param func Исходная функция
+ * @param wait Время
  * @returns {(function(...[*]): void)|*}
  */
 export default function throttle(func, wait) {
