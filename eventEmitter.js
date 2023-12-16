@@ -1,10 +1,15 @@
+/**
+ * Испускание событий
+ */
 class EventEmitter {
     constructor() {
-        this.observers = Object.create(null); // to get rid of any unnecessary methods associated with the prototype
+        //Создается обозреватель
+        this.observers = Object.create(null);
     }
-  
+
+
     on(name, callback) {
-      if (!this.listeners.hasOwnProperty(name)) {
+      if (!this.observers.hasOwnProperty(name)) {
         this.observers[name] = new Set(callback);
       } else {
         this.observers[name].add(callback);
@@ -14,8 +19,14 @@ class EventEmitter {
     off(name, callback) {
       this.observers[name]?.delete(callback);
     }
-  
+
+    /**
+     * Испускаем событие
+     * @param name Имя
+     * @param args Аргументы
+     */
     emit(name, ...args) {
+        //Цикл по коллбэкам обозревателя
       this.observers[name]?.forEach(callback => {
         callback.apply(null, args);
       });

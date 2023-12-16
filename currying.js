@@ -1,35 +1,40 @@
-/* 
-Currying is the technique of converting a function that takes multiple arguments into a sequence of functions that each takes a single argument.
+/**
+ * Каррирование функции
+ *
+ * @param func Исходная функция
+ * @returns {(function(...[*]): (*))|*}
+ */
+export function curry1(func) {
+    return function curried(...args) {
+        if (args.length >= func.length) {
+            //Запускаем исходную функцию
+            return func.apply(this, args);
+        }
 
-Implement the curry function which accepts a function as the only argument and returns a function that accepts single arguments and can be repeatedly
-called until at least the minimum number of arguments have been provided (determined by how many arguments the original function accepts).
-The initial function argument is then invoked with the provided arguments.
-
-*/
-
-// Solution 1:
-
-export default function curry(func) {
-  return function curried(...args) {
-    if (args.length >= func.length) {
-      return func.apply(this, args);
-    }
-
-    return function (...args2) {
-      return curried.apply(this, [...args, ...args2]);
+        //Возвращаем само себя
+        return function (...args2) {
+            //Запускаем исходную функцию в обертке функции каррирования
+            return curried.apply(this, [...args, ...args2]);
+        };
     };
-  };
 }
 
-// Solution 2:
+/**
+ * Функция каррирования в другом виде
+ *
+ * @param func
+ * @returns {(function(...[*]): (*))|*}
+ */
+export default function curry2(func) {
+    return function (...args) {
+        if (args.length >= func.length) {
+            //Вызываем исходную функцию
+            return func.call(this, ...args)
+        }
 
-export default function curry(func) {
- return function(...args) {
-    if(args.length >= func.length) {
-      return func.call(this,...args)
+        //Возвращаем функцию каррирования, саму себя
+        return curry(func.bind(this, ...args))
     }
-    return curry(func.bind(this, ...args))
-  }
 }
 
 
@@ -45,18 +50,18 @@ callback should be called with every argument that was passed, in the correct or
 
 function curry(callback) {
     return function curriedCallback(...args) {
-    if(args.length === 0) {
-      return callback.call(this)
+        if (args.length === 0) {
+            return callback.call(this)
+        }
+        return function (...args2) {
+            if (args2.length === 0) {
+                return callback.call(this, ...args)
+            }
+            return curriedCallback.apply(this, [...args, ...args2])
+        }
     }
-    return function(...args2) {
-      if(args2.length === 0) {
-        return callback.call(this, ...args)
-      }
-      return curriedCallback.apply(this, [...args, ...args2])
-    }
-  }
 
-  return curriedCallback;
+    return curriedCallback;
 }
 
 // Do not edit the line below.
@@ -65,20 +70,20 @@ exports.curry = curry;
 //Solution 2: ( assuming callback doesnt reference this)
 
 function curry(callback) {
-  const curriedCallback = (...args) => {
-    if(args.length === 0) {
-      return callback()
+    const curriedCallback = (...args) => {
+        if (args.length === 0) {
+            return callback()
+        }
+        return (...args2) => {
+            if (args2.length === 0) {
+                return callback(...args)
+            }
+            return curriedCallback(...args, ...args2)
+        }
     }
-    return (...args2) => {
-      if(args2.length === 0) {
-        return callback(...args)
-      }
-      return curriedCallback(...args, ...args2)
-    }
-  }
 
-  return curriedCallback;
-  
+    return curriedCallback;
+
 }
 
 // Do not edit the line below.
